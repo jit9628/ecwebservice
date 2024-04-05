@@ -1,9 +1,17 @@
 package com.webservice.EcWebService.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Category {
@@ -12,7 +20,11 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cid;
 	private String categoryname;
-	private boolean status=true;
+	private boolean status = true;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "category", orphanRemoval = true)
+	@JsonManagedReference
+	private Set<Product> product = new HashSet<>();
 
 	public int getCid() {
 		return cid;
@@ -36,6 +48,14 @@ public class Category {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public Set<Product> getProduct() {
+		return product;
+	}
+
+	public void setProduct(Set<Product> product) {
+		this.product = product;
 	}
 
 }

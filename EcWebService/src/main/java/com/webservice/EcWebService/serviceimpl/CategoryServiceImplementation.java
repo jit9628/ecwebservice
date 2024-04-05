@@ -1,6 +1,11 @@
 package com.webservice.EcWebService.serviceimpl;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.webservice.EcWebService.entity.Category;
@@ -24,6 +29,19 @@ public class CategoryServiceImplementation implements CategoryService {
 			message = "Category is Saved ..";
 			return message;
 		}
+	}
+
+	@Override
+	public List<Category> listOfCategory() {
+
+		List<Category> all = this.categoryRepository.findAll();
+		return all;
+	}
+
+	@Override
+	public void deleteCategory(int cid) {
+		this.categoryRepository.deleteById(cid);
+
 	}
 
 }
