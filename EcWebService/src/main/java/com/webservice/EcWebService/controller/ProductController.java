@@ -90,7 +90,8 @@ public ResponseEntity<?> addProduct(@RequestBody ProductDto dto) {
 	
 	@GetMapping("productlist")
 	@PreAuthorize("hasRole('USER')")
-public ResponseEntity<?> productList() {		
+public ResponseEntity<?> productList() {
+		
 		List<Product> responsevalue = this.productService.listOfProduct();
 		return new ResponseEntity<>(Map.of("message", responsevalue, "statusCod", "200"), HttpStatus.OK);
 	}

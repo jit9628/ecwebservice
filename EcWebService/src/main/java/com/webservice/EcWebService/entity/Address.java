@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Address implements java.io.Serializable
 {
+	
    private Long id;
    private String street;
    private String city;

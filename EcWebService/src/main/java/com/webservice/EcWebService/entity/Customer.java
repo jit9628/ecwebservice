@@ -18,60 +18,51 @@ import jakarta.persistence.OneToOne;
  * @author Emmanuel Bernard
  */
 @Entity
-public class Customer implements java.io.Serializable
-{
-   Long id;
-   String name;
-   Set<Flight> flights;
-   Address address;
+public class Customer implements java.io.Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER, mappedBy = "customers")
+	private Set<Flight> flights;
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "ADDRESS_ID")
 
-   public Customer()
-   {
-   }
+	private Address address;
 
-   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-   public Long getId()
-   {
-      return id;
-   }
+	public Customer() {
+	}
 
-   public String getName()
-   {
-      return name;
-   }
+	public Long getId() {
+		return id;
+	}
 
-   public void setId(Long long1)
-   {
-      id = long1;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setName(String string)
-   {
-      name = string;
-   }
+	public void setId(Long long1) {
+		id = long1;
+	}
 
-   @OneToOne(cascade = {CascadeType.ALL})
-   @JoinColumn(name = "ADDRESS_ID")
-   public Address getAddress()
-   {
-      return address;
-   }
+	public void setName(String string) {
+		name = string;
+	}
 
-   public void setAddress(Address address)
-   {
-      this.address = address;
-   }
+	public Address getAddress() {
+		return address;
+	}
 
-   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy="customers")
-   public Set<Flight> getFlights()
-   {
-      return flights;
-   }
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
-   public void setFlights(Set<Flight> flights)
-   {
-      this.flights = flights;
-   }
+	public Set<Flight> getFlights() {
+		return flights;
+	}
 
+	public void setFlights(Set<Flight> flights) {
+		this.flights = flights;
+	}
 
 }

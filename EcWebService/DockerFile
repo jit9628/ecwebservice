@@ -1,0 +1,5 @@
+# bse images setup instractions
+FROM openjdk:17
+#WORKDIR C:\Users\Precise\Documents\ecwebservice
+ADD target/ecwebservice-0.0.1-snapthot.jar ecwebservice-0.0.1-snapthot.jar
+ENTRYPOINT ["java","-jar","ecwebservice-0.0.1-snapthot.jar"]

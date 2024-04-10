@@ -2,10 +2,12 @@ package com.webservice.EcWebService.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.webservice.EcWebService.auth.jwt.JwtUtils;
+import com.webservice.EcWebService.entity.Address;
 import com.webservice.EcWebService.entity.ERole;
+import com.webservice.EcWebService.entity.Flight;
 import com.webservice.EcWebService.entity.Role;
 import com.webservice.EcWebService.entity.User;
 import com.webservice.EcWebService.repository.RoleRepository;
@@ -29,6 +33,8 @@ import com.webservice.EcWebService.request.LoginRequest;
 import com.webservice.EcWebService.request.SignupRequest;
 import com.webservice.EcWebService.response.JwtResponse;
 import com.webservice.EcWebService.response.MessageResponse;
+import com.webservice.EcWebService.service.AddressService;
+import com.webservice.EcWebService.service.FlightService;
 import com.webservice.EcWebService.service.UserDetailsImpl;
 import com.webservice.EcWebService.validation.MapFieldValidation;
 
@@ -50,6 +56,10 @@ public class AuthController {
 	JwtUtils jwtUtils;
 	@Autowired
 	MapFieldValidation fieldValidation;
+	@Autowired
+	AddressService addressService;
+	@Autowired
+	FlightService flightService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -110,5 +120,21 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	
+	@PostMapping("/adr")
+	public ResponseEntity<?> addAddress(@RequestBody Address address){
+		String address2 = this.addressService.addAddress(address);
+		return new ResponseEntity<>(Map.of("message",address2), HttpStatus.OK);
+		
+		
+	}
+	
+	@PostMapping("/fly")
+	public ResponseEntity<?> addFlight(@RequestBody Flight flight){
+		String address2 = this.flightService.addFlight(flight);
+		return new ResponseEntity<>(Map.of("message",address2), HttpStatus.OK);
+		
+		
 	}
 }
